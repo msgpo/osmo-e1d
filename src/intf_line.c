@@ -471,6 +471,15 @@ e1_line_demux_in(struct e1_line *line, const uint8_t *buf, int size)
 	ftr = size / 32;
 	OSMO_ASSERT(size % 32 == 0);
 
+	for (int i = 0; i < ftr; i++) {
+		static uint8_t last[31];
+		/* print only frames where not all bits are '1' */
+		if (memcmp(buf + i*32 + 1, last, 31)) {
+			printf("%s\n", osmo_hexdump(buf + i*32, 32));
+			memcpy(last, buf +i*32 +1, 31);
+		}
+	}
+
 	switch (line->mode) {
 	case E1_LINE_MODE_CHANNELIZED:
 		return _e1_line_demux_in_channelized(line, buf, ftr);
