@@ -116,6 +116,7 @@ struct osmo_e1dp_line_info {
 
 struct osmo_e1dp_ts_config {
 	uint8_t mode;
+	uint16_t read_bufsize;
 } __attribute__((packed));
 
 struct osmo_e1dp_ts_info {
